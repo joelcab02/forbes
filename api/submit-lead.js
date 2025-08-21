@@ -20,6 +20,17 @@ export default async function handler(req, res) {
     const API_KEY = process.env.CLOSE_API_KEY || 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ';
     console.log('Using API key:', API_KEY.substring(0, 10) + '...');
     
+    // Format phone number - ensure it starts with +
+    let formattedPhone = leadData.phone;
+    if (!formattedPhone.startsWith('+')) {
+      // If it's a 10-digit number, assume it's Mexican (+52)
+      if (formattedPhone.length === 10) {
+        formattedPhone = '+52' + formattedPhone;
+      } else {
+        formattedPhone = '+' + formattedPhone;
+      }
+    }
+    
     const payload = {
       name: leadData.name,
       contacts: [{
@@ -28,7 +39,7 @@ export default async function handler(req, res) {
           type: 'office'
         }],
         phones: [{
-          phone: leadData.phone,
+          phone: formattedPhone,
           type: 'office'
         }]
       }],
