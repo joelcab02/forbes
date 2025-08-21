@@ -25,6 +25,7 @@ export interface LeadData {
  * or a proxy service (recommended for production)
  */
 export async function submitLead(leadData: LeadData) {
+  console.log('🚀 submitLead called with:', leadData);
   try {
     // Format the data according to Close CRM's API requirements
     const payload = {
@@ -33,11 +34,15 @@ export async function submitLead(leadData: LeadData) {
       correo: leadData.correo,
       telefono: leadData.telefono
     };
+    console.log('📦 Payload prepared:', payload);
     // Determine if we should use the proxy or direct API access
     // Force proxy usage in production to avoid CORS issues
     const useProxy = getEnvVar('REACT_APP_USE_API_PROXY', 'true') === 'true';
+    console.log('🔄 Using proxy:', useProxy, 'URL:', PROXY_URL);
+    
     if (useProxy) {
       // Use proxy service (recommended for production)
+      console.log('📡 Making request to proxy...');
       const response = await fetch(PROXY_URL, {
         method: 'POST',
         headers: {
@@ -45,9 +50,13 @@ export async function submitLead(leadData: LeadData) {
         },
         body: JSON.stringify(payload)
       });
+      
+      console.log('📥 Response status:', response.status);
+      console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
+      
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Proxy API Error:', response.status, errorText);
+        console.error('❌ Proxy API Error:', response.status, errorText);
         let errorData;
         try {
           errorData = JSON.parse(errorText);
@@ -56,7 +65,10 @@ export async function submitLead(leadData: LeadData) {
         }
         throw new Error(errorData.error || errorData.message || `HTTP ${response.status}: ${errorText}`);
       }
-      return await response.json();
+      
+      const result = await response.json();
+      console.log('✅ Success response:', result);
+      return result;
     } else {
       // Direct API access (not recommended for production due to CORS)
       const response = await fetch(CLOSE_API_URL, {
@@ -74,16 +86,12 @@ export async function submitLead(leadData: LeadData) {
       return await response.json();
     }
   } catch (error) {
-    console.error('Error submitting lead:', error);
-    // For development fallback - simulate success even if the API call fails
-    const isDevelopment = getEnvVar('NODE_ENV', 'development') === 'development';
-    if (isDevelopment) {
-      console.warn('Development mode: Simulating successful lead submission');
-      return {
-        id: 'simulated_lead_id',
-        success: true
-      };
-    }
+    console.error('💥 Error submitting lead:', error);
+    console.error('💥 Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      type: typeof error
+    });
     throw error;
   }
 }
