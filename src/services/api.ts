@@ -11,7 +11,7 @@ const CLOSE_API_KEY = getEnvVar('REACT_APP_CLOSE_API_KEY', 'api_1XT1LcIKMlumEiqp
 const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 // Proxy URL - replace with your actual proxy service URL if using one
 // For example, a Netlify or Vercel serverless function endpoint
-const PROXY_URL = getEnvVar('REACT_APP_API_PROXY', '/api/submit-lead');
+const PROXY_URL = getEnvVar('REACT_APP_API_PROXY', '/.netlify/functions/submit-lead');
 export interface LeadData {
   name: string;
   email: string;
