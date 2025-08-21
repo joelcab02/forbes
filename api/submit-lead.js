@@ -21,8 +21,8 @@ export default async function handler(req, res) {
     console.log('Using API key:', API_KEY.substring(0, 10) + '...');
     
     // Format phone number - ensure it starts with +
-    let formattedPhone = leadData.phone;
-    if (!formattedPhone.startsWith('+')) {
+    let formattedPhone = leadData.phone || '';
+    if (formattedPhone && !formattedPhone.startsWith('+')) {
       // If it's a 10-digit number, assume it's Mexican (+52)
       if (formattedPhone.length === 10) {
         formattedPhone = '+52' + formattedPhone;
