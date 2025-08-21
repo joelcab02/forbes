@@ -15,10 +15,18 @@ export default async function handler(req, res) {
   console.log('Received request body:', req.body);
 
   const leadData = req.body;
+  
+  // Handle both English and Spanish field names
+  const name = leadData.name || leadData.nombre || '';
+  const email = leadData.email || leadData.correo || '';
+  const phone = leadData.phone || leadData.telefono || '';
+  
+  console.log('Extracted fields:', { name, email, phone });
+  
   const API_KEY = process.env.CLOSE_API_KEY || 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ';
   const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 
-  console.log('Attempting to create lead with data:', leadData);
+  console.log('Attempting to create lead with data:', { name, email, phone });
 
   // First test API connection
   try {
@@ -52,15 +60,15 @@ export default async function handler(req, res) {
 
   try {
     const payload = {
-      name: `${leadData.name} - CFE Program`,
+      name: `${name} - CFE Program`,
       contacts: [{
-        name: leadData.name,
+        name: name,
         emails: [{
-          email: leadData.email,
+          email: email,
           type: 'office'
         }],
         phones: [{
-          phone: leadData.phone,
+          phone: phone,
           type: 'office'
         }]
       }]
