@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Close API Direct</title>
+</head>
+<body>
+    <h1>Test Close API</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const testData = {
+                name: "Test User",
+                email: "test@example.com", 
+                phone: "5512345678"
+            };
+
+            try {
+                const response = await fetch('/api/submit-lead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                const result = await response.text();
+                console.log('Response status:', response.status);
+                console.log('Response:', result);
+                
+                document.getElementById('result').innerHTML = `
+                    <h3>Status: ${response.status}</h3>
+                    <pre>${result}</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = `<h3>Error: ${error.message}</h3>`;
+            }
+        }
+    </script>
+</body>
+</html>

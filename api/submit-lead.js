@@ -15,18 +15,18 @@ export default async function handler(req, res) {
 
   console.log('Received request body:', req.body);
 
-  const { name, email, phone } = req.body;
+  const { nombre, apellidos, correo, telefono } = req.body;
 
   // Validate required fields
-  if (!name || !email || !phone) {
-    console.log('Missing fields:', { name, email, phone });
+  if (!nombre || !apellidos || !correo || !telefono) {
+    console.log('Missing fields:', { nombre, apellidos, correo, telefono });
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const API_KEY = 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ';
   const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 
-  console.log('Attempting to create lead with data:', { name, email, phone });
+  console.log('Attempting to create lead with data:', { nombre, apellidos, correo, telefono });
 
   // First test API connection
   try {
@@ -60,15 +60,15 @@ export default async function handler(req, res) {
 
   try {
     const leadData = {
-      name: `${name} - CFE Program`,
+      name: `${nombre} ${apellidos} - Bono Ciudadano CFE`,
       contacts: [{
-        name: name,
+        name: `${nombre} ${apellidos}`,
         emails: [{
-          email: email,
+          email: correo,
           type: 'office'
         }],
         phones: [{
-          phone: phone,
+          phone: telefono,
           type: 'office'
         }]
       }]

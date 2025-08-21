@@ -13,10 +13,11 @@ const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 // For example, a Netlify or Vercel serverless function endpoint
 const PROXY_URL = getEnvVar('REACT_APP_API_PROXY', '/api/submit-lead');
 export interface LeadData {
-  name: string;
-  email: string;
-  phone: string;
-  [key: string]: any; // Allow for additional custom fields
+  nombre: string;
+  apellidos: string;
+  correo: string;
+  telefono: string;
+  custom?: Record<string, any>;
 }
 /**
  * Submit a lead to Close CRM
@@ -27,23 +28,10 @@ export async function submitLead(leadData: LeadData) {
   try {
     // Format the data according to Close CRM's API requirements
     const payload = {
-      name: leadData.name,
-      contacts: [{
-        emails: [{
-          email: leadData.email,
-          type: 'office'
-        }],
-        phones: [{
-          phone: leadData.phone,
-          type: 'office'
-        }]
-      }],
-      custom: {
-        source: 'CFE Program Website',
-        campaign: 'Programa de Bonos Ciudadanos CFE',
-        landing_page: window.location.href,
-        ...leadData.custom // Allow passing additional custom fields
-      }
+      nombre: leadData.nombre,
+      apellidos: leadData.apellidos,
+      correo: leadData.correo,
+      telefono: leadData.telefono
     };
     // Determine if we should use the proxy or direct API access
     // Force proxy usage in production to avoid CORS issues

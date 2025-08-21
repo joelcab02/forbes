@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { ShieldIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { submitLead, trackLeadEvent } from '../services/api';
+
 export function RegistrationForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: ''
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    telefono: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {
       name,
@@ -62,22 +65,28 @@ export function RegistrationForm() {
         </div>}
       <div className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Nombre completo *
+          <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">
+            Nombre *
           </label>
-          <input type="text" id="name" name="name" required placeholder="Ingrese su nombre completo" value={formData.name} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
+          <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre" value={formData.nombre} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="apellidos" className="block text-sm font-medium text-gray-700 mb-1">
+            Apellidos *
+          </label>
+          <input type="text" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos" value={formData.apellidos} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
+        </div>
+        <div>
+          <label htmlFor="correo" className="block text-sm font-medium text-gray-700 mb-1">
             Correo electrónico *
           </label>
-          <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com" value={formData.email} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
+          <input type="email" id="correo" name="correo" required placeholder="ejemplo@correo.com" value={formData.correo} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
         </div>
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">
             Teléfono celular *
           </label>
-          <input type="tel" id="phone" name="phone" required placeholder="10 dígitos (ej. 5512345678)" value={formData.phone} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
+          <input type="tel" id="telefono" name="telefono" required placeholder="10 dígitos (ej. 5512345678)" value={formData.telefono} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-500" disabled={isSubmitting} />
         </div>
       </div>
       <div className="mt-6">
