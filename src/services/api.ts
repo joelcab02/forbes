@@ -59,7 +59,8 @@ export async function submitLead(leadData: LeadData) {
       });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to submit lead');
+        console.error('Proxy API Error:', errorData);
+        throw new Error(errorData.error || errorData.message || 'Failed to submit lead');
       }
       return await response.json();
     } else {
