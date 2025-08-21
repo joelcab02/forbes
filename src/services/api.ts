@@ -46,7 +46,8 @@ export async function submitLead(leadData: LeadData) {
       }
     };
     // Determine if we should use the proxy or direct API access
-    const useProxy = getEnvVar('REACT_APP_USE_API_PROXY') === 'true';
+    // Force proxy usage in production to avoid CORS issues
+    const useProxy = getEnvVar('REACT_APP_USE_API_PROXY', 'true') === 'true';
     if (useProxy) {
       // Use proxy service (recommended for production)
       const response = await fetch(PROXY_URL, {
