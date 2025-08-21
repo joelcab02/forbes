@@ -8,22 +8,22 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   console.log('Received request body:', req.body);
 
-  const leadData = req.body;
-  
-  // Handle both English and Spanish field names
-  const name = leadData.name || leadData.nombre || '';
-  const email = leadData.email || leadData.correo || '';
-  const phone = leadData.phone || leadData.telefono || '';
-  
-  console.log('Extracted fields:', { name, email, phone });
-  
-  const API_KEY = process.env.CLOSE_API_KEY || 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ';
+  const { name, email, phone } = req.body;
+
+  // Validate required fields
+  if (!name || !email || !phone) {
+    console.log('Missing fields:', { name, email, phone });
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const API_KEY = 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ';
   const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 
   console.log('Attempting to create lead with data:', { name, email, phone });
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const payload = {
+    const leadData = {
       name: `${name} - CFE Program`,
       contacts: [{
         name: name,
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
       }]
     };
 
-    console.log('Sending to Close CRM:', JSON.stringify(payload, null, 2));
+    console.log('Sending to Close CRM:', JSON.stringify(leadData, null, 2));
 
     const response = await fetch(CLOSE_API_URL, {
       method: 'POST',
@@ -82,7 +82,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'Authorization': `Basic ${Buffer.from(`${API_KEY}:`).toString('base64')}`
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(leadData)
     });
 
     console.log('Close CRM response status:', response.status);
