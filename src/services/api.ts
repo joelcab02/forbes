@@ -7,7 +7,7 @@ const getEnvVar = (key: string, fallback: string = '') => {
   return fallback;
 };
 // Close CRM API configuration
-const CLOSE_API_KEY = getEnvVar('REACT_APP_CLOSE_API_KEY', 'your_api_key_here');
+const CLOSE_API_KEY = getEnvVar('REACT_APP_CLOSE_API_KEY', 'api_1XT1LcIKMlumEiqpW2pq75.633xrvvOD2SI1WcfEOs1XZ');
 const CLOSE_API_URL = 'https://api.close.com/api/v1/lead/';
 // Proxy URL - replace with your actual proxy service URL if using one
 // For example, a Netlify or Vercel serverless function endpoint
