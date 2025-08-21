@@ -35,16 +35,17 @@ export function RegistrationForm() {
       });
       // Submit the lead data to Close CRM
       const result = await submitLead(formData);
-      if (result && result.id) {
+      if (result && (result.leadId || result.id || result.success)) {
+        const leadId = result.leadId || result.id;
         // Track successful submission
         trackLeadEvent('form_submission_success', {
-          lead_id: result.id
+          lead_id: leadId
         });
         // Navigate to success page with form data
         navigate('/success', {
           state: {
             leadData: formData,
-            leadId: result.id
+            leadId: leadId
           }
         });
       } else {
