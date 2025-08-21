@@ -10,9 +10,10 @@ import { SuccessPage } from './components/SuccessPage';
 function SuccessPageWrapper() {
   const location = useLocation();
   const leadData = location.state?.leadData || {
-    name: '',
-    email: '',
-    phone: ''
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    telefono: ''
   };
   const leadId = location.state?.leadId || undefined;
   return <SuccessPage leadData={leadData} leadId={leadId} />;
@@ -27,7 +28,7 @@ function MainContent() {
     </main>;
 }
 export function App() {
-  return <BrowserRouter>
+  return <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="flex flex-col w-full min-h-screen bg-white">
         <Header />
         <Routes>
