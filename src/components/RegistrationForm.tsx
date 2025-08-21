@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { submitLead, trackLeadEvent } from '../services/api';
+import { submitLead, trackLeadEvent, sendMetaConversion } from '../services/api';
+import { trackViewContent, trackInitiateCheckout, trackLead } from '../utils/metaPixel';
 
 export function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,11 @@ export function RegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Track form view when component mounts
+  useEffect(() => {
+    trackViewContent('form');
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {
@@ -29,18 +35,40 @@ export function RegistrationForm() {
     setIsSubmitting(true);
     setError(null);
     try {
-      // Track form submission attempt
+      // Track form submission attempt (Meta Pixel)
+      trackInitiateCheckout();
+      
+      // Track form submission attempt (Analytics)
       trackLeadEvent('form_submission_attempt', {
         page: window.location.pathname
       });
+      
       // Submit the lead data to Close CRM
       const result = await submitLead(formData);
       if (result && (result.leadId || result.id || result.success)) {
         const leadId = result.leadId || result.id;
-        // Track successful submission
+        
+        // Track successful submission (Meta Pixel)
+        trackLead(formData);
+        
+        // Track successful submission (Meta Conversions API)
+        sendMetaConversion('Lead', {
+          email: formData.correo,
+          phone: formData.telefono,
+          firstName: formData.nombre,
+          lastName: formData.apellidos
+        }, {
+          content_name: 'CFE Program Registration',
+          content_category: 'Lead Generation',
+          value: 1,
+          currency: 'MXN'
+        }).catch(error => console.error('Meta conversion failed:', error));
+        
+        // Track successful submission (Analytics)
         trackLeadEvent('form_submission_success', {
           lead_id: leadId
         });
+        
         // Navigate to success page with form data
         navigate('/success', {
           state: {

@@ -103,11 +103,56 @@ export function trackLeadEvent(eventName: string, data: Record<string, any> = {}
   try {
     // You can integrate with analytics services here
     console.log(`[TRACK] ${eventName}`, data);
-    // Example: if you have Google Analytics or other tracking service
-    // if (window.gtag) {
-    //   window.gtag('event', eventName, data)
-    // }
+    
+    // Example: Send to Google Analytics, Facebook Pixel, etc.
+    // gtag('event', eventName, data);
+    // fbq('track', 'Lead', data);
   } catch (error) {
     console.error('Error tracking event:', error);
   }
+}
+
+/**
+ * Send conversion event to Meta Conversions API
+ */
+export async function sendMetaConversion(eventName: string, userData: any, eventData: any = {}) {
+  try {
+    const response = await fetch('/api/meta-conversions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        eventName,
+        userData,
+        eventData: {
+          ...eventData,
+          source_url: window.location.href,
+          fbc: getCookie('_fbc'),
+          fbp: getCookie('_fbp')
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send Meta conversion');
+    }
+
+    const result = await response.json();
+    console.log('Meta conversion sent:', result);
+    return result;
+  } catch (error) {
+    console.error('Error sending Meta conversion:', error);
+    throw error;
+  }
+}
+
+// Helper function to get cookies
+function getCookie(name: string): string | null {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() || null;
+  }
+  return null;
 }
