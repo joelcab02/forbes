@@ -8,7 +8,7 @@ export function ArticleHeader() {
       </div>
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight tracking-tight">
         Claudia Sheinbaum anuncia un programa histórico con CFE: los ciudadanos
-        podrán obtener hasta $100,000 pesos al mes
+        podrán obtener hasta $40,000 pesos al mes
       </h1>
       <div className="flex items-center justify-between border-b border-t border-gray-200 py-3 mb-4 md:mb-6">
         <div className="flex items-center">

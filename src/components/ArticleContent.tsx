@@ -120,7 +120,7 @@ export function ArticleContent() {
           <li className="flex items-start">
             <span className="text-red-600 mr-2">•</span>
             <span>
-              La inversión mínima requerida es de $1,000 pesos mexicanos
+              La inversión mínima requerida es de $2,500 pesos mexicanos
             </span>
           </li>
           <li className="flex items-start">
@@ -145,7 +145,7 @@ export function ArticleContent() {
       <p className="font-serif leading-relaxed">
         Este proyecto, respaldado por la Comisión Federal de Electricidad,
         permite que cualquier ciudadano participe con una aportación mínima de
-        $1,000 pesos, obteniendo rendimientos mensuales significativamente
+        $2,500 pesos, obteniendo rendimientos mensuales significativamente
         superiores a los ofrecidos por bancos tradicionales.
       </p>
 
@@ -240,7 +240,7 @@ export function ArticleContent() {
           </span>
           <div className="font-serif">
             <strong>Inversión inicial:</strong> Realice un depósito mínimo de
-            $1,000 pesos a través de transferencia SPEI segura.
+            $2,500 pesos a través de transferencia SPEI segura.
           </div>
         </li>
         <li className="flex items-center bg-gray-50 p-3 rounded-md">
@@ -302,7 +302,7 @@ export function ArticleContent() {
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <div className="text-center mb-2">
               <div className="text-gray-600 text-sm">Inversión inicial</div>
-              <div className="text-2xl font-bold text-black">$1,000</div>
+              <div className="text-2xl font-bold text-black">$2,500</div>
             </div>
             <div className="text-center">
               <div className="text-gray-600 text-sm">Rendimiento mensual</div>
@@ -437,7 +437,7 @@ export function ArticleContent() {
             </div>
           </div>
           <p className="italic text-sm font-serif">
-            "Invertí $1,000 pesos con dudas, pero al primer mes recibí $200 en
+            "Invertí $2,500 pesos con dudas, pero al primer mes recibí $200 en
             mi cuenta. Ahora tengo $20,000 invertidos y recibo más de $3,500
             mensuales. Esto ha sido un gran complemento para los gastos de mi
             familia."
@@ -560,7 +560,7 @@ export function ArticleContent() {
             <span className="text-red-600 mr-2 text-xl">•</span>
             <div>
               <div className="font-bold text-sm">Accesible para todos:</div>
-              <div className="text-xs text-gray-600">Desde $1,000 pesos</div>
+              <div className="text-xs text-gray-600">Desde $2,500 pesos</div>
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded-md shadow-sm flex items-start">
