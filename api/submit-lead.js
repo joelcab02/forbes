@@ -61,6 +61,7 @@ export default async function handler(req, res) {
   try {
     const leadData = {
       name: `${nombre} ${apellidos} - Bono Ciudadano CFE`,
+      description: "Source: advertorial2500",
       contacts: [{
         name: `${nombre} ${apellidos}`,
         emails: [{
